@@ -22,4 +22,37 @@
 
 </body>
 
+<script>
+    const apiKey = '1234567890abcdef';
+
+    document.getElementById('fetch-items').addEventListener('click', () => {
+      fetchItems(apiKey);
+    });
+
+    function fetchItems(apiKey) {
+      fetch('https://3baed9ef-e0f4-4431-974e-2dc06eca5101-00-wmrkrmpvhn5y.riker.replit.dev/api/items', {
+        method: 'GET',
+        headers: {
+          'x-api-key': apiKey
+        }
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Erro ao buscar itens: ' + response.status);
+          }
+          return response.json();
+        })
+        .then(data => {
+          const itemsList = document.getElementById('items-list');
+          itemsList.innerHTML = ''; // Limpa a lista atual de itens
+          data.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item.nome;
+            itemsList.appendChild(li);
+          });
+        })
+        .catch(error => alert(error.message));
+    }
+  </script>
+  
 </html>
